@@ -1,0 +1,289 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Arial', sans-serif;
+	background: linear-gradient(to right, #222, #444);
+	color: #f0f0f0;
+	line-height: 1.6;
+	animation: bgColorChange 15s ease infinite; /* Efecto de cambio de color del fondo */
+}
+
+@keyframes bgColorChange {
+	0% { background: #222; }
+	50% { background: #444; }
+	100% { background: #222; }
+}
+
+header {
+	position: fixed;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	padding: 1rem 0;
+	z-index: 1000;
+	transition: background-color 0.3s ease; /* Transición suave para el header */
+}
+
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 70%;
+	margin: 0 auto;
+}
+
+.nav-links {
+	list-style: none;
+	display: flex;
+	gap: 2rem;
+}
+
+.nav-links li a {
+	color: #ffcc00;
+	text-decoration: none;
+	font-weight: bold;
+	transition: color 0.3s, transform 0.3s; /* Añadido hover de transformación */
+}
+
+.nav-links li a:hover {
+	color: #ffb300;
+	transform: scale(1.1); /* Efecto de aumento al pasar el mouse */
+}
+
+.title-section {
+	text-align: center;
+	background: url('halloween-background.jpg') no-repeat center center/cover;
+	padding: 2rem;
+	margin-top: 100px; /* Espacio para la barra de navegación */
+	animation: fadeIn 1s ease-in; /* Efecto de aparición */
+}
+
+@keyframes fadeIn {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+.title-section h2 {
+	color: #ffcc00;
+	font-size: 3rem;
+	transition: transform 0.3s; /* Transición de transformación */
+}
+
+.title-section h2:hover {
+	transform: rotate(3deg); /* Efecto de rotación al pasar el mouse */
+}
+
+main {
+	width: 70%;
+	margin: 0 auto;
+	padding: 2rem;
+}
+
+h2 {
+	margin: 2rem 0;
+	text-align: center;
+	color: #ffcc00;
+	font-size: 2.5rem;
+	transition: transform 0.3s; /* Transición de transformación */
+}
+
+h2:hover {
+	transform: scale(1.05); /* Efecto de aumento al pasar el mouse */
+}
+
+.featured-games, .about, .updates, .links, .halloween-content {
+	padding: 2rem;
+	border-radius: 2px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+	animation: fadeIn 1s ease-in; /* Efecto de aparición */
+	transition: transform 0.3s; /* Añadido hover de transformación */
+}
+
+.featured-games:hover,
+.about:hover,
+.updates:hover,
+.links:hover,
+.halloween-content:hover {
+	transform: translateY(-5px); /* Efecto de elevación al pasar el mouse */
+}
+
+.featured-games {
+	background: rgba(50, 50, 50, 0.8);
+}
+
+.about {
+	background: rgba(75, 75, 75, 0.8);
+}
+
+.updates {
+	background: rgba(50, 50, 50, 0.8);
+}
+
+.links {
+	background: rgba(75, 75, 75, 0.8);
+}
+
+.halloween-content {
+	background: rgba(50, 50, 50, 0.8);
+}
+
+.game-container {
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+}
+
+.game-card {
+	background: #333;
+	border: 1px solid #555;
+	border-radius: 15px;
+	padding: 1rem;
+	width: 280px;
+	text-align: center;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+	position: relative;
+	transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.game-card:hover {
+	transform: translateY(-5px); /* Efecto de elevación al pasar el mouse */
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7); /* Aumenta la sombra al hacer hover */
+}
+
+.game-card img {
+	max-width: 100%;
+	border-radius: 10px;
+	transition: transform 0.3s; /* Transición de transformación */
+}
+
+.game-card img:hover {
+	transform: scale(1.1); /* Efecto de aumento al pasar el mouse */
+}
+
+button {
+	background: #ffcc00;
+	border: none;
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+	color: #333;
+	transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+	background: #ffb300;
+	transform: scale(1.05); /* Efecto de aumento al hacer hover */
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 720px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+	border-radius: 5px;
+}
+
+.dropdown-content ul {
+	padding: 10px;
+	list-style: none;
+}
+
+.halloween-elements {
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+	margin-bottom: 1rem;
+}
+
+.halloween-item {
+	width: 50px; /* Ajustar el tamaño de las imágenes de Halloween */
+	animation: bounce 1s infinite; /* Efecto de rebote en las imágenes de Halloween */
+}
+
+@keyframes bounce {
+	0%, 20%, 50%, 80%, 100% {
+		transform: translateY(0);
+	}
+	40% {
+		transform: translateY(-10px);
+	}
+	60% {
+		transform: translateY(-5px);
+	}
+}
+
+footer {
+	text-align: center;
+	padding: 1rem;
+	background-color: #111;
+}
+
+footer:hover {
+	background-color: #222; /* Cambia el fondo al pasar el mouse */
+	transition: background-color 0.3s;
+}
+
+.actualizaciones {
+	margin: 2rem 0;
+	padding: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+	transition: transform 0.2s; /* Añadido hover de transformación */
+}
+
+.actualizaciones:hover {
+	transform: scale(1.02); /* Efecto de aumento al pasar el mouse */
+}
+
+.actualizaciones ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.actualizaciones li {
+	margin-bottom: 1rem;
+	padding: 0.5rem;
+	background-color: #ffffff;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	transition: transform 0.2s;
+}
+
+.actualizaciones li:hover {
+	transform: scale(1.02);
+}
+
+.main {
+	margin-top: 20px;
+}
+
+/* Estilo para todos los botones */
+.button {
+    display: inline-block; /* Para que se comporten como botones */
+    background-color: #4CAF50; /* Color de fondo */
+    color: white; /* Color del texto */
+    text-align: center; /* Centrar el texto */
+    text-decoration: none; /* Sin subrayado */
+    padding: 15px 20px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    margin: 10px; /* Espaciado externo */
+    transition: background-color 0.3s, transform 0.3s; /* Transición suave para el hover */
+}
+
+/* Efecto al pasar el mouse */
+.button:hover {
+    background-color: #45a049; /* Color de fondo en hover */
+    transform: scale(1.05); /* Efecto de aumento al hacer hover */
+}
