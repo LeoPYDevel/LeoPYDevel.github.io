@@ -3,449 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>oLe Studios - Desarrollo Futurista</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8jPyzOs4xFzZHi1RRMVRq1t+S5KK7M8mEexVYxBqFGC0VibvB3mEYdA0j0w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="main.css">
+    <title>oLe Studios</title>
+    <script>
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function revealEasterEgg() {
+            const easterEgg = document.getElementById('easter-egg');
+            easterEgg.style.opacity = '1'; // Hace visible el easter egg
+            easterEgg.style.transform = 'scale(1.5)'; // Efecto de aumento
+            setTimeout(() => {
+                alert('🎉 ¡Has encontrado un easter egg! 🎉');
+            }, 500); // Muestra el alert después de medio segundo
+        }
+
+        function handleClick(e) {
+            if (e.target.id === 'hidden-area') {
+                revealEasterEgg(); // Llama a la función de revelar solo si se clickeó el área escondida
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f0f0f;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        /* Fondo de cuadrícula animada infinita */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.freepik.com%2Fvector-premium%2Ffondo-transparente-photoshop-cuadricula-transparente_631632-29.jpg%3Fw%3D2000&f=1&nofb=1&ipt=5730efc6da290e6d6da76ca475687be9adefc314bf5a74ca8d6100748075a3a4&ipo=images');
-            opacity: 0.1;
-            animation: moveGrid 20s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes moveGrid {
-            0% { background-position: 0 0; }
-            100% { background-position: 100% 100%; }
-        }
-
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: rgba(15, 15, 15, 0.8);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #00eaff;
-        }
-
-        .logo span {
-            color: #ff007a;
-        }
-
-        .nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav ul li {
-            position: relative;
-        }
-
-        .nav ul li::before {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 3px;
-            bottom: -5px;
-            left: 50%;
-            background-color: #00eaff;
-            transition: width 0.3s ease, left 0.3s ease;
-        }
-
-        .nav ul li:hover::before {
-            width: 100%;
-            left: 0;
-        }
-
-        .nav ul li a {
-            text-decoration: none;
-            color: #fff;
-            font-size: 1.1em;
-            transition: color 0.3s;
-        }
-
-        .nav ul li a:hover {
-            color: #ff007a;
-        }
-
-        /* Hero */
-        .hero {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(135deg, #0a0a0a 0%, #151515 100%);
-            color: #00eaff;
-            height: 100vh;
-            padding: 20px;
-            position: relative;
-        }
-
-        .hero-content {
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero h1 {
-            font-size: 3.5em;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #00eaff, #ff007a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.5em;
-            color: #ddd;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            color: #fff;
-            background-color: #ff007a;
-            border: none;
-            border-radius: 30px;
-            margin-top: 30px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            z-index: 10;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: 50%;
-            left: 50%;
-            background-color: #00eaff;
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.4s ease-in-out;
-        }
-
-        .btn:hover::before {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .btn:hover {
-            color: #0f0f0f;
-        }
-
-        /* Separadores entre secciones */
-        section {
-            padding: 80px 10%;
-            margin-top: 50px;
-            position: relative;
-        }
-
-        section:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #ff007a, #00eaff);
-        }
-
-        section:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #00eaff, #ff007a);
-        }
-
-        h2 {
-            font-size: 2.5em;
-            color: #00eaff;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ff007a;
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-
-        p {
-            font-size: 1.2em;
-            line-height: 1.6;
-            color: #bbb;
-        }
-
-        /* Proyectos */
-        .projects {
-            background-color: #151515;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .grid-item {
-            background-color: #202020;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .grid-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 4px 20px rgba(255, 0, 122, 0.5);
-        }
-
-        .grid-item h3 {
-            margin-bottom: 15px;
-            color: #ff007a;
-        }
-
-        .grid-item p {
-            color: #bbb;
-        }
-
-        .grid-item a {
-            text-decoration: none;
-            color: #00eaff;
-            font-size: 1.2em;
+        /* Agregar estilo para el easter egg */
+        #easter-egg {
+            width: 50px;
+            height: 50px;
+            background-color: gold;
             position: absolute;
             bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: color 0.3s;
+            right: 10px;
+            opacity: 0; /* Inicialmente oculto */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Transición suave */
+            border-radius: 50%; /* Forma redonda */
+            cursor: pointer; /* Cambia el cursor al pasar por encima */
         }
 
-        .grid-item a:hover {
-            color: #ff007a;
+        /* Estilo para el área escondida */
+        #hidden-area {
+            position: absolute;
+            bottom: 50px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: transparent; /* Área transparente para clic */
         }
-
-        /* Sección de contacto */
-        .contact {
-            background-color: #202020;
-            padding: 40px;
-            border-radius: 10px;
-        }
-
-        .contact h2 {
-            margin-bottom: 20px;
-        }
-
-        .contact form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .contact input, .contact textarea {
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: #151515;
-            color: #fff;
-            font-size: 1em;
-        }
-
-        .contact button {
-            background-color: #ff007a;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .contact button:hover {
-            background-color: #00eaff;
-        }
-
-        /* Footer */
-        footer {
-            background-color: rgba(15, 15, 15, 0.8);
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            z-index: 100;
-        }
-
-        footer p {
-            color: #aaa;
-        }
-
-        footer a {
-            color: #00eaff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-@media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 35px;
-    }
-
-    .nav ul {
-        flex-direction: column;
-        gap:30px; padding-top: 30px;
-    }
-
-    .nav ul li {
-        width: 0;
-        text-align: center;
-    }
-
-    .hero h1 {
-        font-size: 2.5em;
-    }
-
-    .hero p {
-        font-size: 1.2em;
-    }
-
-    .btn {
-        padding: 30px 20px;
-        font-size: 1em;
-    }
-
-    section {
-        padding: 60px 5%;
-    }
-
-    h2 {
-        font-size: 2em;
-    }
-
-    .grid-container {
-        grid-template-columns: 1fr; /* Cambia a una sola columna */
-    }
-
-    .contact form {
-        gap: 50px; /* Reduce el espacio entre los campos del formulario */
-    }
-
-    .contact input, .contact textarea {
-        font-size: 0.9em; /* Ajusta el tamaño de la fuente */
-    }
-
-    footer p {
-        font-size: 0.9em;
-    }
-}
-
-
     </style>
 </head>
-<body>
-
-    <header class="header">
-        <div class="logo">oLe <span>Studios</span></div>
-        <nav class="nav">
-            <ul>
-                <li><a href="#home">Inicio</a></li>
-                <li><a href="#projects">Proyectos</a></li>
-                <li><a href="#contact">Contacto</a></li>
+<body onclick="handleClick(event)"> <!-- Añadimos el evento click al body -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>oLe Studios</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about">Sobre Mí</a></li>
+                <li><a href="#updates">Actualizaciones</a></li>
+                <li><a href="#games">Juegos</a></li>
+                <li><a href="#links">Conéctate</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Bienvenido a oLe Studios</h1>
-            <p>Desarrollando experiencias de juego futuristas.</p>
-            <button class="btn">Explorar Proyectos</button>
-        </div>
-    </section>
+    <main>
+        <section class="title-section">
+            <h2>Bienvenido a oLe Studios</h2>
+            <p>Descubre nuestras creaciones y sumérgete en aventuras únicas.</p>
+        </section>
 
-    <section class="projects" id="projects">
-        <h2>Proyectos Recientes</h2>
-        <div class="grid-container">
-            <div class="grid-item">
-                <h3>Proyecto 1</h3>
-                <p>Descripción del proyecto 1.</p>
-                <a href="#">Ver Más</a>
+        <section class="featured-games" id="games" style="position: relative;"> <!-- Posicionamos el contenedor -->
+            <h2>Mis Creaciones</h2>
+            <div class="game-container">
+                <div class="game-card">
+                    <img src="game1.jpg" alt="Juego 1">
+                    <h3>Aventura Épica</h3>
+                    <p>Únete a esta emocionante aventura y descubre mundos nuevos.</p>
+                    <button>¡Juega Ahora!</button>
+                </div>
+                <div class="game-card">
+                    <img src="game2.jpg" alt="Juego 2">
+                    <h3>Desafío Infinito</h3>
+                    <p>Demuestra tus habilidades y supera los niveles más difíciles.</p>
+                    <button>¡Juega Ahora!</button>
+                </div>
+                <div class="game-card">
+                    <img src="game3.jpg" alt="Juego 3">
+                    <h3>Viaje de Magia</h3>
+                    <p>Conviértete en el mejor mago y derrota a tus enemigos.</p>
+                    <button>¡Juega Ahora!</button>
+                </div>
             </div>
-            <div class="grid-item">
-                <h3>Proyecto 2</h3>
-                <p>Descripción del proyecto 2.</p>
-                <a href="#">Ver Más</a>
-            </div>
-            <div class="grid-item">
-                <h3>Proyecto 3</h3>
-                <p>Descripción del proyecto 3.</p>
-                <a href="#">Ver Más</a>
-            </div>
-            <div class="grid-item">
-                <h3>Proyecto 4</h3>
-                <p>Descripción del proyecto 4.</p>
-                <a href="#">Ver Más</a>
-            </div>
-        </div>
-    </section>
 
-    <section class="contact" id="contact">
-        <h2>Contacto</h2>
-        <form>
-            <input type="text" placeholder="Tu nombre" required>
-            <input type="email" placeholder="Tu email" required>
-            <textarea placeholder="Tu mensaje" rows="5" required></textarea>
-            <button type="submit">Enviar</button>
-        </form>
-    </section>
+            <!-- Easter egg oculto -->
+            <div id="hidden-area" title="Haz clic aquí para revelar el easter egg!"></div>
+            <div id="easter-egg" onclick="revealEasterEgg()">
+                🎉
+            </div>
+        </section>
+
+        <section class="about" id="about">
+            <h2>Sobre Mí</h2>
+            <p>Hola, soy Netto, un desarrollador indie apasionado por crear experiencias únicas a través de los videojuegos. En oLe Studios, cada juego es un proyecto que refleja mi dedicación y amor por la creación de mundos y narrativas.</p>
+            <p>Mi objetivo es conectar con los jugadores a través de historias emocionantes y jugabilidad envolvente. Cada juego es una nueva aventura, y estoy aquí para compartirlas contigo.</p>
+            <p>¡No dudes en seguirme en las redes sociales para estar al tanto de mis proyectos!</p>
+        </section>
+
+        <section class="updates" id="updates">
+            <h2>Horror The Game - Actualizaciones</h2>
+            <div class="dropdown">
+                <button onclick="toggleDropdown('updateList')" class="dropdown-button">Ver Actualizaciones</button>
+                <div id="updateList" class="dropdown-content actualizaciones">
+                    <ul>
+                        <li><strong>Versión 1.0</strong> - Lanzamiento inicial - <em>15 de enero de 2024</em></li>
+                        <li><strong>Versión 1.1</strong> - Mejoras en la jugabilidad - <em>22 de febrero de 2024</em></li>
+                        <li><strong>Versión 1.2</strong> - Nuevos niveles y enemigos - <em>10 de marzo de 2024</em></li>
+                        <li><strong>Versión 1.3</strong> - Corrección de errores y ajustes de balance - <em>30 de abril de 2024</em></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="links" id="links">
+            <h2>Conéctate con Nosotros</h2>
+            <div class="link-buttons">
+                <a href="https://itch.io" class="button">Visítanos en Itch.io</a>
+                <a href="https://gamejolt.com" class="button">Explora GameJolt</a>
+                <a href="https://youtube.com" class="button">Suscríbete a Nuestro Canal</a>
+            </div>
+        </section>
+
+        <section class="halloween-content">
+            <h2>¡Celebra Halloween con Nosotros!</h2>
+            <div class="halloween-elements">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F019%2F040%2F589%2Fnon_2x%2Fan-8-bit-retro-styled-pixel-art-illustration-of-pumpkin-pie-free-png.png&f=1&nofb=1&ipt=11d0403a1b090b2d91c6c6a6ed0e3f6bf8543550241e1fb4bdf782d0884bd111&ipo=images" alt="Calabaza" class="halloween-item">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fpixelartmaker-data-78746291193.nyc3.digitaloceanspaces.com%2Fimage%2Fe22163e9b7058ca.png&f=1&nofb=1&ipt=ff7d4c1f72a13bede7baec96b1b6e6a634b2494a4d117fd9b7c81ffa9ec8f8c3&ipo=images" alt="Calavera" class="halloween-item">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fart.pixilart.com%2F7db18276b1fde20.png&f=1&nofb=1&ipt=6a55f1bf8c1dc2acd5c4847edd6478832a9e68d06286418e01270b455404b52b&ipo=images" alt="Tela de Araña" class="halloween-item">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com/b/vela-iluminada-icono-ilustracion-silueta-vela-con-llama-vector-negro-silueta-vela-luz-icono-ilustracion-145947878.jpg&f=1&nofb=1&ipt=92d0e6ef92827f0425fae24c86e8094e49e4eb4d04979715a87b21af00533ab0&ipo=images" alt="Vela" class="halloween-item">
+            </div>
+        </section>
+    </main>
 
     <footer>
-        <p>&copy; 2024 oLe Studios | <a href="mailto:contact@olestudios.com">contact@olestudios.com</a></p>
+        <p>&copy; 2024 oLe Studios. Todos los derechos reservados.</p>
     </footer>
-
 </body>
 </html>
