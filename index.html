@@ -1,152 +1,149 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
-    <title>oLe Studios</title>
-    <script>
-        function toggleDropdown(id) {
-            const dropdown = document.getElementById(id);
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function revealEasterEgg() {
-            const easterEgg = document.getElementById('easter-egg');
-            easterEgg.style.opacity = '1'; // Hace visible el easter egg
-            easterEgg.style.transform = 'scale(1.5)'; // Efecto de aumento
-            setTimeout(() => {
-                alert('🎉 ¡Has encontrado un easter egg! 🎉');
-            }, 500); // Muestra el alert después de medio segundo
-        }
-
-        function handleClick(e) {
-            if (e.target.id === 'hidden-area') {
-                revealEasterEgg(); // Llama a la función de revelar solo si se clickeó el área escondida
-            }
-        }
-    </script>
-    <style>
-        /* Agregar estilo para el easter egg */
-        #easter-egg {
-            width: 50px;
-            height: 50px;
-            background-color: gold;
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            opacity: 0; /* Inicialmente oculto */
-            transition: opacity 0.5s ease, transform 0.5s ease; /* Transición suave */
-            border-radius: 50%; /* Forma redonda */
-            cursor: pointer; /* Cambia el cursor al pasar por encima */
-        }
-
-        /* Estilo para el área escondida */
-        #hidden-area {
-            position: absolute;
-            bottom: 50px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background-color: transparent; /* Área transparente para clic */
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="main.css">
+  
+  <title>oLe Studios - Página principal</title>
 </head>
-<body onclick="handleClick(event)"> <!-- Añadimos el evento click al body -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <h1>oLe Studios</h1>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#about">Sobre Mí</a></li>
-                <li><a href="#updates">Actualizaciones</a></li>
-                <li><a href="#games">Juegos</a></li>
-                <li><a href="#links">Conéctate</a></li>
-            </ul>
-        </nav>
-    </header>
+<body>
+  <div class="super-top">
+	<a>Donar dinero para la Causa</a>
+	<h6>|</h6>
+	<a>see Games JAM from Scratch</a>
+	<h6>|</h6>
+	<a>see Games JAM from others</a>
+	<h6>|</h6>
+	<a>Registrarme</a>
+  </div>
+  <header>
+    <img class="h1" src="logo.png">
+    <nav>
+      <a href="search.html">🔎 Búsqueda</a>
+      <a href="#news">📰 Noticias</a>
+      <a href="#tutorials">📚 Tutoriales</a>
+      <a href="#projects">🚀 Proyectos</a>
+      <a href="#contact">📞 Contacto</a>
+    </nav>
+  </header>
+  <div id="popup" class="">
+	<div id="popup-container">
+		<button onclick="close_donar()" class="close-button" id="close-donar">X</button>
+		<h2 style="margin-bottom: 10px" class="popup-text">¡Hola, te pedimos solo un minuto de tu tiempo!</h2>
+		<p style="margin-bottom: 20px" class="popup-text">¡Hola! ¿Cómo estás? Espero que bien. De parte del estudio, te queremos pedir una cosa... bueno, dos.</p>
+		<p class="texto-grande popup-text"><strong>La primera:</strong> Un minuto de tu tiempo, que para nosotros es muy valioso.</p>
+		<p class="texto-grande popup-text"><strong>La segunda:</strong> Nosotros somos un estudio que desarolla videojuegos y animaciónes, que nos enfocamos principalmente en no tener ánimo de lucro. Sin embargo hay veces en la que nosotros necesitamos costearnos con assets, paquetes de sonidos y entre otros elementos más. ¿Te gustaría ayudarnos? Considera por favor donarnos un café, que aunque para ustéd sea poco (o mucho), para nosotros es muchísimo más. Y apreciamos totalmente a las personas tan bondadosas que lo hacen.</p>
+	</div> 
+  </div>
+  <main class="content">
+    <section id="news" class="section">
+      <h2 class="align">🗞️ Últimas Noticias de oLe Games 🗞️</h2>
+      <div class="card">
+	<img style="margin-bottom: 10px" src="one mental thumbail.jpg">
+        <h3>Lanzamiento de <em>One Mental: The Game</em> 🎉</h3>
+        <p>Vamos a lanzar al mercado este juegazo. One Mental (así le hemos llamado) es un juego que nos lleva a carne y vida</p>
+	<p>de Lucas Notejane, que es un ser humano común; como Tú y yo. Sin embargo una serie de eventos extraños</p>
+	<p>Hace cuestionarse a nuestro protagonista "¿Qué es lo que está viviendo?". Sucesos que parecen paranormales</p>
+	<p>Sin embargo no lo son. Lamentamos informar que este juego <em>No es multiplataforma</em> sin embargo</p>
+	<p>nuestro equipo está elaborando una serie de traducciónes para hacerlo <em>multilenguaje</em> y que todos</p>
+	<p>puedan disfrutar de nuestro juego. <em>AVISO: Este juego es <a href="https://www.google.com">Esterilizado</a> y se encuentra en fase <a href="www.youtube.com">Beta</a></em>
+	<script type="text/javascript" src="button.js"></script>
 
-    <main>
-        <section class="title-section">
-            <h2>Bienvenido a oLe Studios</h2>
-            <p>Descubre nuestras creaciones y sumérgete en aventuras únicas.</p>
-        </section>
+	<button class="button-game" id="game-one-mental-button" onclick="info()">Click para Mostrar la información Extra ⬇️ </button>
+	
+	<div class="game-info-container" id="game-one-mental-info">
+		<div class="etiquetas">
+			<h3 style="margin-bottom: 5px">Etiquetas:</h3>
+			<h4>Prueba Demo</h4>
+			<h4>Esterilizado</h4>
+			<h4>Terror</h4>
+			<h4>3D</h4>
+		</div>
 
-        <section class="featured-games" id="games" style="position: relative;"> <!-- Posicionamos el contenedor -->
-            <h2>Mis Creaciones</h2>
-            <div class="game-container">
-                <div class="game-card">
-                    <img src="game1.jpg" alt="Juego 1">
-                    <h3>Aventura Épica</h3>
-                    <p>Únete a esta emocionante aventura y descubre mundos nuevos.</p>
-                    <button>¡Juega Ahora!</button>
-                </div>
-                <div class="game-card">
-                    <img src="game2.jpg" alt="Juego 2">
-                    <h3>Desafío Infinito</h3>
-                    <p>Demuestra tus habilidades y supera los niveles más difíciles.</p>
-                    <button>¡Juega Ahora!</button>
-                </div>
-                <div class="game-card">
-                    <img src="game3.jpg" alt="Juego 3">
-                    <h3>Viaje de Magia</h3>
-                    <p>Conviértete en el mejor mago y derrota a tus enemigos.</p>
-                    <button>¡Juega Ahora!</button>
-                </div>
-            </div>
+		<div class="etiquetas">
+			<h3 style="margin-bottom: 5px">Retricción de edad: Si</h3>
+			<h5>Este Juego no es recomendado para menores de 15 años, contiene menciones sutiles al suicidio.</h5>
+		</div>
 
-            <!-- Easter egg oculto -->
-            <div id="hidden-area" title="Haz clic aquí para revelar el easter egg!"></div>
-            <div id="easter-egg" onclick="revealEasterEgg()">
-                🎉
-            </div>
-        </section>
+		<div class="etiquetas">
+			<h3 style="margin-bottom: 5px">Fecha de entrega:</h3>
+			<h5>Este juego esperamos entregarlo entre el 3 y 7 de noviembre</h5>
+			<h3 style="margin-top: 15px; margin-bottom: 5px">Última actualización:</h3>
+			<h5>El juego no ha tenido una fecha de entrega, por lo tanto no tiene actualizaciónes. Si tiene algúna</h5>
+			<h5>Actualización, aparecerá por aquí, como un menú despregable, y podrá ver todos los cambios realizados</h5>
+		</div>
 
-        <section class="about" id="about">
-            <h2>Sobre Mí</h2>
-            <p>Hola, soy Netto, un desarrollador indie apasionado por crear experiencias únicas a través de los videojuegos. En oLe Studios, cada juego es un proyecto que refleja mi dedicación y amor por la creación de mundos y narrativas.</p>
-            <p>Mi objetivo es conectar con los jugadores a través de historias emocionantes y jugabilidad envolvente. Cada juego es una nueva aventura, y estoy aquí para compartirlas contigo.</p>
-            <p>¡No dudes en seguirme en las redes sociales para estar al tanto de mis proyectos!</p>
-        </section>
+      </div>
+</div>
+    </section>
 
-        <section class="updates" id="updates">
-            <h2>Horror The Game - Actualizaciones</h2>
-            <div class="dropdown">
-                <button onclick="toggleDropdown('updateList')" class="dropdown-button">Ver Actualizaciones</button>
-                <div id="updateList" class="dropdown-content actualizaciones">
-                    <ul>
-                        <li><strong>Versión 1.0</strong> - Lanzamiento inicial - <em>15 de enero de 2024</em></li>
-                        <li><strong>Versión 1.1</strong> - Mejoras en la jugabilidad - <em>22 de febrero de 2024</em></li>
-                        <li><strong>Versión 1.2</strong> - Nuevos niveles y enemigos - <em>10 de marzo de 2024</em></li>
-                        <li><strong>Versión 1.3</strong> - Corrección de errores y ajustes de balance - <em>30 de abril de 2024</em></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+    <section id="tutorials" class="section">
+      <h2 class="align">Tutoriales 📖</h2>
+      <div class="card">
+        <h3 class="align">Tutoriales de Godot 3 🌟</h3>
+        <p>Bueno, bueno. Descubre varios tutoriales que ofrecemos de Godot 3. Nuestro equipo especializado</p>
+	<p>le guiará ante cualquier problema o duda que tenga al respecto. Aprenda a como utilizar este motor</p>
+	<p>gráfico, que le permitirá desenvolver las ideas que tiene encerradas dentro de su cráneo, y quebrar la</p>
+	<p>paréd que lo obstaculiza entre sus ideas y la posibilidad de crear material único. <em><a href="https://www.google.com">Saber mas  < </a></em></p>
+      </div>
+      <div class="card">
+        <h3 class="align">Tutoriales de Scratch 3 🎥</h3>
+        <p>Tratar con el gatito 🐈 de scratch <em><a href="https://www.google.com">(mascota oficial de Scratch)</a></em> no es nada complicado, este lenguaje</p>
+	<p>de programación es para personas que poseen un nivel de compresión de lectura nulo (Niños, Niñas, Niñes,</p>
+	<p>como le quieras llamar) por lo tanto, si un niño puede crear Fisicas 3D realistas junto con un sistema</p>
+	<p>completo de luces dinámicas con integración de GUI y una narrativa que supera de la de juegos como</p>
+	<p>Undertale, God of war, Darksouls. Y todo eso, potenciado por una PAPA de 90 gramos... (0.2 Libras >_<)</p>
+	<p style="font-size: 28px;" >TU TAMBIEN PUEDES... <em><a style="font-size: 16px;" href="https://www.google.com"> Saber mas  < </a></em></p>
+      </div>
+    </section>
 
-        <section class="links" id="links">
-            <h2>Conéctate con Nosotros</h2>
-            <div class="link-buttons">
-                <a href="https://itch.io" class="button">Visítanos en Itch.io</a>
-                <a href="https://gamejolt.com" class="button">Explora GameJolt</a>
-                <a href="https://youtube.com" class="button">Suscríbete a Nuestro Canal</a>
-            </div>
-        </section>
+    <section id="projects" class="section">
+      <h2 class="align">🎮 Futuros y Actuales proyectos 🎮</h2>
+      <div class="card">
+        <h3 class="align">Walk Runner 3D</h3>
+        <p>Un juego destinado para plataformas móviles sobre esquivar obstáculos - <strong>PRECIO: GRATIS</strong></p>
+      </div>
+      <div class="card">
+        <h3 class="align">One Mental</h3>
+        <p>Un juego corto y narrativo Esterilizado que nos lleva a la vida de Lucas️ - <strong>PRECIO: GRATIS</strong></p>
+      </div>
+    </section>
 
-        <section class="halloween-content">
-            <h2>¡Celebra Halloween con Nosotros!</h2>
-            <div class="halloween-elements">
-                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F019%2F040%2F589%2Fnon_2x%2Fan-8-bit-retro-styled-pixel-art-illustration-of-pumpkin-pie-free-png.png&f=1&nofb=1&ipt=11d0403a1b090b2d91c6c6a6ed0e3f6bf8543550241e1fb4bdf782d0884bd111&ipo=images" alt="Calabaza" class="halloween-item">
-                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fpixelartmaker-data-78746291193.nyc3.digitaloceanspaces.com%2Fimage%2Fe22163e9b7058ca.png&f=1&nofb=1&ipt=ff7d4c1f72a13bede7baec96b1b6e6a634b2494a4d117fd9b7c81ffa9ec8f8c3&ipo=images" alt="Calavera" class="halloween-item">
-                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fart.pixilart.com%2F7db18276b1fde20.png&f=1&nofb=1&ipt=6a55f1bf8c1dc2acd5c4847edd6478832a9e68d06286418e01270b455404b52b&ipo=images" alt="Tela de Araña" class="halloween-item">
-                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com/b/vela-iluminada-icono-ilustracion-silueta-vela-con-llama-vector-negro-silueta-vela-luz-icono-ilustracion-145947878.jpg&f=1&nofb=1&ipt=92d0e6ef92827f0425fae24c86e8094e49e4eb4d04979715a87b21af00533ab0&ipo=images" alt="Vela" class="halloween-item">
-            </div>
-        </section>
-    </main>
+    <section id="contact" class="section align">
+      <h2 class="align">Conéctate con nosotros 🤝</h2>
+      <p class="align">Síguenos en nuestras redes sociales:</p>
+      <div class="social-links">
+        <a href="https://twitter.com/oLeStudios">🐦 Twitter</a>
+        <a href="https://facebook.com/oLeStudios">📘 Facebook</a>
+        <a href="https://instagram.com/oLeStudios">📸 Instagram</a>
+	<a href="https://youtube.com/@oLeStudios">🎥 YouTube</a>
+	<p>&copy; 2021 - 2024 oLe Studios. Todos los derechos reservados.</p>
+   <p>Programación HTML, CSS, JS, por nuestro fundador Leonardo Netto</p>
+      </div>
 
-    <footer>
-        <p>&copy; 2024 oLe Studios. Todos los derechos reservados.</p>
-    </footer>
+    </section>
+  </main>
+
+  <aside class="sidebar">
+    <div class="card">
+      <img src="https://placehold.co/210x100"><br><br>
+      <h3>Noticias 📰</h3>
+      <p>Contenemos nuestras noticias, en donde te informaremos sobre nuestras novedades, juegos, animaciónes y sobre nuestro canal de YouTube. Considera seguirnos también en nuestras redes sociales</p>
+    </div>
+    <div class="card">
+      <img src="https://placehold.co/210x100"><br><br>
+      <h3>Proyectos 🚀</h3>
+      <p>Explora los juegos y aplicaciones desarrolladas por nuestro equipo, también encontrarás animaciónes o trailers de nuestros futuros juegos, o los que ya están disponibles en el mercado </p>
+    </div>
+    <div class="card">
+      <img src="https://placehold.co/210x100"><br><br>
+      <h3>Generos 🌐</h3>
+      <p>No nos referimos a los géneros que la sociedad considera existentes, nos referimos a los géneros de videjuegos. Haz click <a href="www.google.com">aquí</a> para aceder al panel que organiza nuestros juegos por género, y también puede buscarlos por nombre</p>
+    </div>
+  </aside>
+
 </body>
 </html>
+
+

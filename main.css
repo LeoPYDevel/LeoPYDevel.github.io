@@ -1,289 +1,314 @@
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-	font-family: 'Arial', sans-serif;
-	background: linear-gradient(to right, #222, #444);
-	color: #f0f0f0;
-	line-height: 1.6;
-	animation: bgColorChange 15s ease infinite; /* Efecto de cambio de color del fondo */
-}
+    body {
+      font-family: 'Roboto', sans-serif; /* Fuente para el cuerpo */
+      color: #333;
+      /*background-color: #dfdfdf;*/
+	  background-image: url("bg.jpg");
+	  background-repeat: no-repeat;
+	  background-attachment: fixed;
+	  background-size: cover;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      /*animation: bgColorChange 1s ease infinite; /*/
+    }
+
 
 @keyframes bgColorChange {
-	0% { background: #222; }
-	50% { background: #444; }
-	100% { background: #222; }
-}
-
-header {
-	position: fixed;
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.8);
-	padding: 1rem 0;
-	z-index: 1000;
-	transition: background-color 0.3s ease; /* Transición suave para el header */
-}
-
-.navbar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 70%;
-	margin: 0 auto;
-}
-
-.nav-links {
-	list-style: none;
-	display: flex;
-	gap: 2rem;
-}
-
-.nav-links li a {
-	color: #ffcc00;
-	text-decoration: none;
-	font-weight: bold;
-	transition: color 0.3s, transform 0.3s; /* Añadido hover de transformación */
-}
-
-.nav-links li a:hover {
-	color: #ffb300;
-	transform: scale(1.1); /* Efecto de aumento al pasar el mouse */
-}
-
-.title-section {
-	text-align: center;
-	background: url('halloween-background.jpg') no-repeat center center/cover;
-	padding: 2rem;
-	margin-top: 100px; /* Espacio para la barra de navegación */
-	animation: fadeIn 1s ease-in; /* Efecto de aparición */
-}
-
-@keyframes fadeIn {
-	0% { opacity: 0; }
+	0% { opacity: 1; }
+	50% { opacity: 0.8; }
 	100% { opacity: 1; }
 }
 
-.title-section h2 {
-	color: #ffcc00;
-	font-size: 3rem;
-	transition: transform 0.3s; /* Transición de transformación */
+
+    header {
+      box-shadow: 0px 8px 0px rgba(255, 255, 255, 1);
+      width: 100%;
+      padding: 1rem;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    header .h1 {
+      font-size: 2rem;
+      color: #333;
+      font-family: 'Montserrat', sans-serif; /* Fuente para encabezados */
+    }
+
+    nav a {
+      color: #333;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: .3s ease, transform .3s ease;
+    }
+
+    nav a:hover {
+      color: #0077ff;
+      font-size: 2em;
+      transition: .1s ease, font-size .1s ease;
+      margin: 1rem 1rem;
+    }
+
+.content {
+  padding: 1rem;
+  max-width: 1000px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  animation: fadeIn 1s ease-in-out; /* Añadir animación */
+  margin-left: 80px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  margin-right: 350px;
 }
 
-.title-section h2:hover {
-	transform: rotate(3deg); /* Efecto de rotación al pasar el mouse */
+/* Definición de la animación */
+@keyframes fadeIn {
+  from {
+    opacity: 0; /* Comienza invisible */
+    transform: translateY(20px); /* Desplazamiento hacia abajo */
+    transform: scale(1.1);
+    transform: rotate(5deg);
+  }
+  
+  to {
+    opacity: 1; /* Termina visible */
+    transform: translateY(0); /* Regresa a su posición original */
+    transform: scale(1);
+    transform: rotate(0deg);
+  }
+}
+.etiquetas {
+  margin: 25px;
 }
 
-main {
-	width: 70%;
-	margin: 0 auto;
-	padding: 2rem;
+.etiquetas > h4 {
+  display: inline;
+  padding: 5px 20px;
+  background-color: #94db94;
+  text-align: left;
+  border-radius: 3px;
+  font-size: 0.8em;
 }
 
-h2 {
-	margin: 2rem 0;
-	text-align: center;
-	color: #ffcc00;
-	font-size: 2.5rem;
-	transition: transform 0.3s; /* Transición de transformación */
+.section {
+  width: 100%;
+  padding: 2rem 0;
 }
 
-h2:hover {
-	transform: scale(1.05); /* Efecto de aumento al pasar el mouse */
+.align {
+  text-align: center;
 }
 
-.featured-games, .about, .updates, .links, .halloween-content {
-	padding: 2rem;
-	border-radius: 2px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-	animation: fadeIn 1s ease-in; /* Efecto de aparición */
-	transition: transform 0.3s; /* Añadido hover de transformación */
+.section h2 {
+  font-size: 1.8rem;
+  color: #0077ff;
+  animation: h2AnimationsMiniJump 1s ease-in-out infinite;
 }
 
-.featured-games:hover,
-.about:hover,
-.updates:hover,
-.links:hover,
-.halloween-content:hover {
-	transform: translateY(-5px); /* Efecto de elevación al pasar el mouse */
+@keyframes h2AnimationsMiniJump {
+	0% { transform: translateY(-10px) }
+	25% { transform: translateY(-20px); }
+	100% {transform: translateY(-10px); }
 }
 
-.featured-games {
-	background: rgba(50, 50, 50, 0.8);
+.card {
+   background-color: #fff; /* Color original para otras secciones */
+   border-radius:8px; 
+   padding:.5rem; 
+   margin:.5rem; 
 }
 
-.about {
-	background: rgba(75, 75, 75, 0.8);
+.card h3 {
+   color:#333; 
 }
 
-.updates {
-	background: rgba(50, 50, 50, 0.8);
+.card p {
+   color:#555; 
+   text-align: left;
+   margin-top: 10px;
 }
 
-.links {
-	background: rgba(75, 75, 75, 0.8);
+/* Estilo específico para la sección de contacto */
+#contact {
+   background-color: rgba(0,0,0,0.05); /* Fondo con opacidad negra */
+   padding:2rem; 
+   border-radius:.5rem; 
 }
 
-.halloween-content {
-	background: rgba(50, 50, 50, 0.8);
+    .social-links a {
+      display: inline-block;
+      color: #0077ff;
+      margin: .5rem;
+      padding: .5rem;
+      background-color: #e9f1ff;
+      border-radius: .5rem;
+      text-decoration: none;
+      transition: .3s ease, transform .3s ease; /* Transición de transformación */
+    }
+
+    .social-links a:hover {
+      color: #fff;
+      background-color: #0077ff;
+      padding: .5rem 1rem;
+      margin: .5rem 0;
+    }
+
+.sidebar {
+   width:250px; 
+   padding: .5rem; 
+   background-color:#fff; 
+   border-left:.5px solid #ddd; 
+   position:absolute; 
+   right: 0; 
+   top: .5rem; 
+   bottom:.5rem; 
+   z-index: 5; 
+   overflow-y:auto; 
+   margin-top: 75px;
+   height: 100%;
+}
+.card > img {
+   width: 100%;
+   margin: 0;
+   padding: 0;
 }
 
-.game-container {
-	display: flex;
-	justify-content: center;
-	gap: 2rem;
+.h1 {
+    font-weight: 800;
+    transition: .1s;
+    min-width: 300px;
+    animation: rotate_level 1s ease-in-out infinite; /
+}
+.h1:hover {
+    transform: scale(1.05);
+    margin-left: 10px;
+    transition: .1s;
+    cursor: grab;
 }
 
-.game-card {
-	background: #333;
-	border: 1px solid #555;
-	border-radius: 15px;
-	padding: 1rem;
-	width: 280px;
-	text-align: center;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-	position: relative;
-	transition: transform 0.3s, box-shadow 0.3s;
+@keyframes rotate_level {
+	0% { transform: rotate(0deg); }
+	25% { transform: rotate(1deg); }
+	75% { transform: rotate(-1deg); }
+	100% { transform: rotate(0deg); }
 }
 
-.game-card:hover {
-	transform: translateY(-5px); /* Efecto de elevación al pasar el mouse */
-	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7); /* Aumenta la sombra al hacer hover */
+@keyframes specialBold {
+	0% { text-shadow: 0px 1px 4px #000000; }
+	50% { text-shadow: 0px 1px 3px #ff0000; }
+	100% { text-shadow: 0px 1px 4px #000000; }
 }
 
-.game-card img {
-	max-width: 100%;
-	border-radius: 10px;
-	transition: transform 0.3s; /* Transición de transformación */
+
+a:hover {
+   font-weight: 900;
+}
+a {
+   text-decoration: none;
+   font-weight: 400;
 }
 
-.game-card img:hover {
-	transform: scale(1.1); /* Efecto de aumento al pasar el mouse */
+    .super-top {
+    width: 100%;
+    background-color: #84a5ff;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: right;
+    align-items: end;
+    }
+.super-top > a {
+    color: #000000;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 900;
+    text-align: right;
+    margin: 0 3px;
+    padding: 0 7px;
+    transition: 0.5s;
+}
+.super-top > a:hover {
+    cursor: pointer;
+    background-color: #00000055;
+    font-weight: 500;
+    color: #ffffff;
+    transition: 0.2s;
 }
 
-button {
-	background: #ffcc00;
-	border: none;
-	padding: 0.5rem 1rem;
-	border-radius: 5px;
-	cursor: pointer;
-	font-weight: bold;
-	color: #333;
-	transition: background 0.3s, transform 0.2s;
+.game-info-container {
+    background-color: #00000022;
+    padding: 10px;
+}
+#game-one-mental-info {
+   display: none;
+}
+.button-game {
+    border: 0;
+    padding: 10px;
+    background-color: #8be0a1;
+    color: #228635;
+    margin-top: 30px;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.3s;
+	display: block;
+}
+.close-button {
+    position: absolute;
+    border: 0;
+    background-color: #8be0a1;
+    color: #228635;
+    cursor: pointer;
+    padding: 10px 20px;
+    top: -15px;
+    left: -15px;
+
+}
+#popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #000000aa;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	backdrop-filter: blur(12px);
+}
+#popup-container {
+    position: fixed;
+    width: 70%;
+    height: 70%;
+    background-color: #000000dd;
+    z-index: 9999;
+    padding: 20px;
+}
+.popup-text {
+    z-index: 99999;
+    color: #ffffff;
+}
+.texto-grande {
+    font-size: 26px;
 }
 
-button:hover {
-	background: #ffb300;
-	transform: scale(1.05); /* Efecto de aumento al hacer hover */
-}
-
-.dropdown {
-	position: relative;
-	display: inline-block;
-}
-
-.dropdown-content {
-	display: none;
-	position: absolute;
-	background-color: #f9f9f9;
-	min-width: 720px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	z-index: 1;
-	border-radius: 5px;
-}
-
-.dropdown-content ul {
-	padding: 10px;
-	list-style: none;
-}
-
-.halloween-elements {
-	display: flex;
-	justify-content: center;
-	gap: 2rem;
-	margin-bottom: 1rem;
-}
-
-.halloween-item {
-	width: 50px; /* Ajustar el tamaño de las imágenes de Halloween */
-	animation: bounce 1s infinite; /* Efecto de rebote en las imágenes de Halloween */
-}
-
-@keyframes bounce {
-	0%, 20%, 50%, 80%, 100% {
-		transform: translateY(0);
-	}
-	40% {
-		transform: translateY(-10px);
-	}
-	60% {
-		transform: translateY(-5px);
-	}
-}
-
-footer {
-	text-align: center;
-	padding: 1rem;
-	background-color: #111;
-}
-
-footer:hover {
-	background-color: #222; /* Cambia el fondo al pasar el mouse */
-	transition: background-color 0.3s;
-}
-
-.actualizaciones {
-	margin: 2rem 0;
-	padding: 1rem;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	background-color: #f9f9f9;
-	transition: transform 0.2s; /* Añadido hover de transformación */
-}
-
-.actualizaciones:hover {
-	transform: scale(1.02); /* Efecto de aumento al pasar el mouse */
-}
-
-.actualizaciones ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-.actualizaciones li {
-	margin-bottom: 1rem;
-	padding: 0.5rem;
-	background-color: #ffffff;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	transition: transform 0.2s;
-}
-
-.actualizaciones li:hover {
-	transform: scale(1.02);
-}
-
-.main {
-	margin-top: 20px;
-}
-
-/* Estilo para todos los botones */
-.button {
-    display: inline-block; /* Para que se comporten como botones */
-    background-color: #4CAF50; /* Color de fondo */
-    color: white; /* Color del texto */
-    text-align: center; /* Centrar el texto */
-    text-decoration: none; /* Sin subrayado */
-    padding: 15px 20px; /* Espaciado interno */
-    border-radius: 5px; /* Bordes redondeados */
-    margin: 10px; /* Espaciado externo */
-    transition: background-color 0.3s, transform 0.3s; /* Transición suave para el hover */
-}
-
-/* Efecto al pasar el mouse */
-.button:hover {
-    background-color: #45a049; /* Color de fondo en hover */
-    transform: scale(1.05); /* Efecto de aumento al hacer hover */
+.card a {
+	animation: specialBold .5s ease-in-out infinite; /
 }
