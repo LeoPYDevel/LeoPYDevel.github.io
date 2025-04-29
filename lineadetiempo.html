@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Línea de Tiempo Épica</title>
+	<style>
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			font-family: 'Segoe UI', sans-serif;
+			background-color: #fdfdfd;
+			color: #222;
+			padding: 2rem;
+			animation: fadeIn 1s ease-out;
+		}
+		h1 {
+			text-align: center;
+			margin-bottom: 0.5rem;
+			font-size: 2.5rem;
+			color: #111;
+			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: 4px;
+			animation: slideInFromTop 1.5s ease-out;
+		}
+		p.subtitulo {
+			text-align: center;
+			color: #888;
+			margin-bottom: 2rem;
+			font-size: 1rem;
+			animation: fadeIn 2s ease-out;
+		}
+		#formulario {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 1rem;
+			margin-bottom: 2rem;
+			max-width: 800px;
+			margin-left: auto;
+			margin-right: auto;
+			animation: slideInFromLeft 1.5s ease-out;
+		}
+		input, button {
+			padding: 0.7rem 1rem;
+			border-radius: 10px;
+			border: 1px solid #ccc;
+			font-size: 1rem;
+			outline: none;
+			transition: all 0.2s ease;
+		}
+		input:focus {
+			border-color: #888;
+		}
+		button {
+			background-color: #111;
+			color: white;
+			cursor: pointer;
+		}
+		button:hover {
+			background-color: #333;
+		}
+		.timeline {
+			position: relative;
+			margin: 0 auto;
+			padding-left: 2.5rem;
+			border-left: 2px solid #222;
+			max-width: 600px;
+			animation: fadeIn 1.5s ease-out;
+		}
+		.evento {
+			margin-bottom: 2rem;
+			position: relative;
+			padding-left: 1rem;
+			opacity: 0;
+			animation: slideInFromBottom 1.5s ease-out forwards;
+		}
+		.evento:nth-child(odd) {
+			animation-delay: 0.2s;
+		}
+		.evento:nth-child(even) {
+			animation-delay: 0.4s;
+		}
+		.evento::before {
+			content: "";
+			position: absolute;
+			left: -18px;
+			top: 4px;
+			width: 12px;
+			height: 12px;
+			background: #222;
+			border-radius: 50%;
+			box-shadow: 0 0 0 4px #fff, 0 0 0 5px #222;
+		}
+		.fecha {
+			font-weight: 600;
+			font-size: 0.9rem;
+			color: #888;
+			margin-bottom: 0.2rem;
+		}
+		.titulo {
+			font-size: 1.1rem;
+			font-weight: bold;
+			margin-bottom: 0.1rem;
+		}
+		.descripcion {
+			font-size: 0.95rem;
+			color: #666;
+		}
+		.editar-icono {
+			position: absolute;
+			top: -10px;
+			right: 10px;
+			cursor: pointer;
+			font-size: 1.2rem;
+			color: #888;
+		}
+		.editar-icono:hover {
+			color: #333;
+		}
+
+		/* Animations */
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+		@keyframes slideInFromTop {
+			from {
+				transform: translateY(-30px);
+				opacity: 0;
+			}
+			to {
+				transform: translateY(0);
+				opacity: 1;
+			}
+		}
+		@keyframes slideInFromLeft {
+			from {
+				transform: translateX(-30px);
+				opacity: 0;
+			}
+			to {
+				transform: translateX(0);
+				opacity: 1;
+			}
+		}
+		@keyframes slideInFromBottom {
+			from {
+				transform: translateY(30px);
+				opacity: 0;
+			}
+			to {
+				transform: translateY(0);
+				opacity: 1;
+			}
+		}
+	</style>
+</head>
+<body>
+
+	<h1>📌 Línea de Tiempo Épica</h1>
+	<p class="subtitulo">Crea, organiza y visualiza tus eventos de una manera increíblemente épica. ¡Tu historia, tu línea de tiempo!</p>
+	<div id="formulario">
+		<input type="text" id="titulo" placeholder="Título del evento" />
+		<input type="text" id="descripcion" placeholder="Descripción (opcional)" />
+		<input type="date" id="fechaPicker" />
+		<input type="text" id="fechaManual" placeholder="Fecha manual (YYYY-MM-DD)" />
+		<button onclick="agregarEvento()">Agregar</button>
+	</div>
+
+	<div class="timeline" id="lineaTiempo">
+		<!-- Eventos -->
+	</div>
+
+	<div style="text-align: center; margin-top: 2rem;">
+		<button onclick="exportarLinea()">Exportar Línea de Tiempo</button>
+		<input type="file" id="archivoImportar" accept=".json" onchange="importarLinea()" style="margin-left: 1rem;" />
+	</div>
+	
+	<p class="subtitulo">Hecho por Leonardo Netto</p>
+
+	<script>
+		const eventos = [];
+
+		function agregarEvento() {
+			const titulo = document.getElementById("titulo").value.trim();
+			const descripcion = document.getElementById("descripcion").value.trim();
+			const fechaPicker = document.getElementById("fechaPicker").value;
+			const fechaManual = document.getElementById("fechaManual").value.trim();
+
+			const fechaInput = fechaManual || fechaPicker;
+
+			if (!fechaInput || !titulo) {
+				alert("Necesitás al menos un título y una fecha.");
+				return;
+			}
+
+			const fechaObj = new Date(fechaInput);
+			if (isNaN(fechaObj)) {
+				alert("La fecha no es válida. Asegurate que sea formato YYYY-MM-DD o usar el selector.");
+				return;
+			}
+
+			const opciones = { year: "numeric", month: "long", day: "2-digit" };
+			const fechaFormateada = fechaObj.toLocaleDateString("es-ES", opciones)
+				.replace(/^(\d{2})/, (_, dia) => `${fechaObj.getFullYear()}, ${dia}`);
+
+			eventos.push({ fecha: fechaObj, titulo, descripcion, fechaFormateada });
+			eventos.sort((a, b) => a.fecha - b.fecha);
+			renderizarLinea();
+
+			document.getElementById("titulo").value = "";
+			document.getElementById("descripcion").value = "";
+			document.getElementById("fechaPicker").value = "";
+			document.getElementById("fechaManual").value = "";
+		}
+
+		function renderizarLinea() {
+			const contenedor = document.getElementById("lineaTiempo");
+			contenedor.innerHTML = "";
+
+			eventos.forEach((evento, index) => {
+				const div = document.createElement("div");
+				div.className = "evento";
+				div.innerHTML = `
+					<div class="fecha">${evento.fechaFormateada}</div>
+					<div class="titulo">${evento.titulo}</div>
+					<div class="descripcion">${evento.descripcion || ''}</div>
+					<span class="editar-icono" onclick="editarEvento(${index})">✏️</span>
+				`;
+				contenedor.appendChild(div);
+			});
+		}
+
+		function editarEvento(index) {
+			const evento = eventos[index];
+			document.getElementById("titulo").value = evento.titulo;
+			document.getElementById("descripcion").value = evento.descripcion || '';
+			document.getElementById("fechaManual").value = evento.fecha.toISOString().split('T')[0];
+			document.getElementById("fechaPicker").value = evento.fecha.toISOString().split('T')[0];
+
+			// Eliminar el evento original para que no se repita
+			eventos.splice(index, 1);
+			renderizarLinea();
+		}
+
+		function exportarLinea() {
+			const blob = new Blob([JSON.stringify(eventos)], { type: "application/json" });
+			const enlace = document.createElement("a");
+			enlace.href = URL.createObjectURL(blob);
+			enlace.download = "linea_de_tiempo.json";
+			enlace.click();
+		}
+
+		function importarLinea() {
+			const archivo = document.getElementById("archivoImportar").files[0];
+			if (!archivo) {
+				alert("Seleccioná un archivo para importar.");
+				return;
+			}
+
+			const lector = new FileReader();
+			lector.onload = function(event) {
+				try {
+					const datos = JSON.parse(event.target.result);
+					eventos.length = 0; // Limpiar eventos actuales
+					eventos.push(...datos);
+					eventos.sort((a, b) => a.fecha - b.fecha);
+					renderizarLinea();
+				} catch (e) {
+					alert("El archivo no es válido.");
+				}
+			};
+			lector.readAsText(archivo);
+		}
+	</script>
+
+</body>
+</html>
+
