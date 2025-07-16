@@ -1,286 +1,685 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="UTF-8">
-	<title>Línea de Tiempo Épica</title>
-	<style>
-		* {
-			box-sizing: border-box;
-			margin: 0;
-			padding: 0;
-		}
-		body {
-			font-family: 'Segoe UI', sans-serif;
-			background-color: #fdfdfd;
-			color: #222;
-			padding: 2rem;
-			animation: fadeIn 1s ease-out;
-		}
-		h1 {
-			text-align: center;
-			margin-bottom: 0.5rem;
-			font-size: 2.5rem;
-			color: #111;
-			font-weight: bold;
-			text-transform: uppercase;
-			letter-spacing: 4px;
-			animation: slideInFromTop 1.5s ease-out;
-		}
-		p.subtitulo {
-			text-align: center;
-			color: #888;
-			margin-bottom: 2rem;
-			font-size: 1rem;
-			animation: fadeIn 2s ease-out;
-		}
-		#formulario {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-			gap: 1rem;
-			margin-bottom: 2rem;
-			max-width: 800px;
-			margin-left: auto;
-			margin-right: auto;
-			animation: slideInFromLeft 1.5s ease-out;
-		}
-		input, button {
-			padding: 0.7rem 1rem;
-			border-radius: 10px;
-			border: 1px solid #ccc;
-			font-size: 1rem;
-			outline: none;
-			transition: all 0.2s ease;
-		}
-		input:focus {
-			border-color: #888;
-		}
-		button {
-			background-color: #111;
-			color: white;
-			cursor: pointer;
-		}
-		button:hover {
-			background-color: #333;
-		}
-		.timeline {
-			position: relative;
-			margin: 0 auto;
-			padding-left: 2.5rem;
-			border-left: 2px solid #222;
-			max-width: 600px;
-			animation: fadeIn 1.5s ease-out;
-		}
-		.evento {
-			margin-bottom: 2rem;
-			position: relative;
-			padding-left: 1rem;
-			opacity: 0;
-			animation: slideInFromBottom 1.5s ease-out forwards;
-		}
-		.evento:nth-child(odd) {
-			animation-delay: 0.2s;
-		}
-		.evento:nth-child(even) {
-			animation-delay: 0.4s;
-		}
-		.evento::before {
-			content: "";
-			position: absolute;
-			left: -18px;
-			top: 4px;
-			width: 12px;
-			height: 12px;
-			background: #222;
-			border-radius: 50%;
-			box-shadow: 0 0 0 4px #fff, 0 0 0 5px #222;
-		}
-		.fecha {
-			font-weight: 600;
-			font-size: 0.9rem;
-			color: #888;
-			margin-bottom: 0.2rem;
-		}
-		.titulo {
-			font-size: 1.1rem;
-			font-weight: bold;
-			margin-bottom: 0.1rem;
-		}
-		.descripcion {
-			font-size: 0.95rem;
-			color: #666;
-		}
-		.editar-icono {
-			position: absolute;
-			top: -10px;
-			right: 10px;
-			cursor: pointer;
-			font-size: 1.2rem;
-			color: #888;
-		}
-		.editar-icono:hover {
-			color: #333;
-		}
-
-		/* Animations */
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-			}
-			to {
-				opacity: 1;
-			}
-		}
-		@keyframes slideInFromTop {
-			from {
-				transform: translateY(-30px);
-				opacity: 0;
-			}
-			to {
-				transform: translateY(0);
-				opacity: 1;
-			}
-		}
-		@keyframes slideInFromLeft {
-			from {
-				transform: translateX(-30px);
-				opacity: 0;
-			}
-			to {
-				transform: translateX(0);
-				opacity: 1;
-			}
-		}
-		@keyframes slideInFromBottom {
-			from {
-				transform: translateY(30px);
-				opacity: 0;
-			}
-			to {
-				transform: translateY(0);
-				opacity: 1;
-			}
-		}
-	</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Editor 3D Imagen Animada - Preview y Export</title>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ccapture.js@1.1.0/build/CCapture.all.min.js"></script>
+<style>
+  body, html {
+    margin: 0; padding: 0; overflow: hidden; background:#121212; color:#eee; font-family: sans-serif;
+  }
+  #controls-panel {
+    position: fixed; top: 0; left: 0; bottom: 50px; 
+    width: 320px; background: #222; padding: 15px;
+    display: flex; flex-direction: column; gap: 10px;
+    box-sizing: border-box; 
+    overflow-y: auto;
+    border-right: 1px solid #444;
+    z-index: 100;
+  }
+  #canvas-container {
+    position: fixed; top: 0; left: 320px; right: 0; bottom: 50px;
+    background: #000;
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+  }
+  #timeline-container {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 50px;
+    background: #222; display: flex; align-items: center; padding-left: 320px; box-sizing: border-box;
+    border-top: 1px solid #444;
+  }
+  #timeline-slider-container {
+    position: relative; flex-grow: 1; margin-right: 20px;
+  }
+  #timeline {
+    width: 100%;
+    appearance: none;
+    height: 8px;
+    border-radius: 4px;
+    background: #444;
+    outline: none;
+  }
+  #timeline::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px; height: 16px;
+    background: #0ff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    margin-top: -4px;
+  }
+  #timeline-label {
+    color: #ccc;
+    font-size: 14px;
+    width: 60px;
+    text-align: center;
+  }
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .control-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .control-row > input[type=range] {
+    flex-grow: 1;
+  }
+  .value-display {
+    width: 40px;
+    text-align: right;
+    font-family: monospace;
+  }
+  button {
+    background: #0ff;
+    border: none;
+    color: #000;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: #0cc;
+  }
+  #playPauseBtn {
+    width: 60px;
+  }
+  #exportBtn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: #f80;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 10px 15px;
+    font-weight: 700;
+    user-select: none;
+    box-shadow: 0 0 8px #f80;
+    z-index: 120;
+  }
+  #previewVideo {
+    position: fixed;
+    bottom: 55px;
+    right: 15px;
+    width: 320px;
+    height: 180px;
+    background: #000;
+    border: 2px solid #0ff;
+    box-sizing: border-box;
+    display: none;
+    z-index: 110;
+  }
+  #fileInput {
+    margin-bottom: 10px;
+  }
+  #controls-panel::-webkit-scrollbar {
+    width: 8px;
+  }
+  #controls-panel::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+  }
+  #controls-panel::-webkit-scrollbar-track {
+    background: #222;
+  }
+  /* Export progress box */
+  #exportProgress {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px 15px;
+    background: rgba(0,0,0,0.7);
+    color: #0ff;
+    font-family: monospace;
+    z-index: 150;
+    border-radius: 6px;
+    user-select: none;
+  }
+</style>
 </head>
 <body>
 
-	<h1>📌 Línea de Tiempo Épica</h1>
-	<p class="subtitulo">Crea, organiza y visualiza tus eventos de una manera increíblemente épica. ¡Tu historia, tu línea de tiempo!</p>
-	<div id="formulario">
-		<input type="text" id="titulo" placeholder="Título del evento" />
-		<input type="text" id="descripcion" placeholder="Descripción (opcional)" />
-		<input type="date" id="fechaPicker" />
-		<input type="text" id="fechaManual" placeholder="Fecha manual (YYYY-MM-DD)" />
-		<button onclick="agregarEvento()">Agregar</button>
-	</div>
+<div id="controls-panel">
+  <input id="fileInput" type="file" accept="image/*,video/*" />
+  
+  <div class="control-row">
+    <label for="posX">Posición X:</label>
+    <input id="posX" type="range" min="-15.0" max="15.0" step="0.01" value="0" />
+    <span id="posXval" class="value-display">0.00</span>
+    <button class="reset-btn" data-target="posX">Reset</button>
+  </div>
+  <div class="control-row">
+    <label for="posY">Posición Y:</label>
+    <input id="posY" type="range" min="-20.0" max="20.0" step="0.01" value="0" />
+    <span id="posYval" class="value-display">0.00</span>
+    <button class="reset-btn" data-target="posY">Reset</button>
+  </div>
+  <div class="control-row">
+    <label for="posZ">Posición Z:</label>
+    <input id="posZ" type="range" min="-10.0" max="5" step="0.01" value="0" />
+    <span id="posZval" class="value-display">0.00</span>
+    <button class="reset-btn" data-target="posZ">Reset</button>
+  </div>
 
-	<div class="timeline" id="lineaTiempo">
-		<!-- Eventos -->
-	</div>
+  <div class="control-row">
+    <label for="rotX">Rotación X:</label>
+    <input id="rotX" type="range" min="-3.14" max="3.14" step="0.01" value="0" />
+    <span id="rotXval" class="value-display">0.00</span>
+    <button class="reset-btn" data-target="rotX">Reset</button>
+  </div>
+  <div class="control-row">
+    <label for="rotY">Rotación Y:</label>
+    <input id="rotY" type="range" min="-3.14" max="3.14" step="0.01" value="0" />
+    <span id="rotYval" class="value-display">0.00</span>
+    <button class="reset-btn" data-target="rotY">Reset</button>
+  </div>
+  <div class="control-row">
+    <label for="rotZ">Rotación Z:</label>
+    <input id="rotZ" type="range" min="-3.14" max="3.14" step="0.01" value="0" />
+    <span id="rotZval" class="value-display">0.00</span>
+    <button class="reset-btn" data-target="rotZ">Reset</button>
+  </div>
 
-	<div style="text-align: center; margin-top: 2rem;">
-		<button onclick="exportarLinea()">Exportar Línea de Tiempo</button>
-		<input type="file" id="archivoImportar" accept=".json" onchange="importarLinea()" style="margin-left: 1rem;" />
-	</div>
-	
-	<p class="subtitulo">Hecho por Leonardo Netto</p>
+  <div class="control-row">
+    <label for="brightness">Brillo:</label>
+    <input id="brightness" type="range" min="0" max="5" step="0.01" value="1" />
+    <span id="brightnessval" class="value-display">1.00</span>
+    <button class="reset-btn" data-target="brightness">Reset</button>
+  </div>
 
-	<script>
-		const eventos = [];
+  <div class="control-row size-inputs">
+    <label for="canvasWidth">Ancho Canvas:</label>
+    <input type="number" id="canvasWidth" value="1366" min="200" max="1920" />
+    <label for="canvasHeight">Alto Canvas:</label>
+    <input type="number" id="canvasHeight" value="768" min="150" max="1080" />
+    <button id="resizeCanvasBtn" class="reset-btn" style="width:auto">Aplicar Tamaño</button>
+  </div>
 
-		function agregarEvento() {
-			const titulo = document.getElementById("titulo").value.trim();
-			const descripcion = document.getElementById("descripcion").value.trim();
-			const fechaPicker = document.getElementById("fechaPicker").value;
-			const fechaManual = document.getElementById("fechaManual").value.trim();
+  <div class="control-row" style="justify-content: space-between;">
+    <button id="addKeyframeBtn">Agregar Keyframe</button>
+    <button id="playPauseBtn">▶️</button>
+  </div>
+</div>
 
-			const fechaInput = fechaManual || fechaPicker;
+<div id="canvas-container"></div>
 
-			if (!fechaInput || !titulo) {
-				alert("Necesitás al menos un título y una fecha.");
-				return;
-			}
+<div id="timeline-container" aria-label="Línea de tiempo animación">
+  <div id="timeline-slider-container">
+    <input type="range" id="timeline" min="0" max="10" step="0.01" value="0" />
+    <div id="timeline-label">0.00s</div>
+  </div>
+</div>
 
-			const fechaObj = new Date(fechaInput);
-			if (isNaN(fechaObj)) {
-				alert("La fecha no es válida. Asegurate que sea formato YYYY-MM-DD o usar el selector.");
-				return;
-			}
+<button id="exportBtn" title="Exportar video">Exportar 🎬</button>
 
-			const opciones = { year: "numeric", month: "long", day: "2-digit" };
-			const fechaFormateada = fechaObj.toLocaleDateString("es-ES", opciones)
-				.replace(/^(\d{2})/, (_, dia) => `${fechaObj.getFullYear()}, ${dia}`);
+<video id="previewVideo" controls></video>
 
-			eventos.push({ fecha: fechaObj, titulo, descripcion, fechaFormateada });
-			eventos.sort((a, b) => a.fecha - b.fecha);
-			renderizarLinea();
+<script>
 
-			document.getElementById("titulo").value = "";
-			document.getElementById("descripcion").value = "";
-			document.getElementById("fechaPicker").value = "";
-			document.getElementById("fechaManual").value = "";
-		}
+let scene, camera, renderer, mesh, texture, videoElement, videoTexture;
+const keyframes = [];
+let duration = 10;
+let isPlaying = false;
+let currentTime = 0;
+let exportInProgress = false;
+let capturer;
 
-		function renderizarLinea() {
-			const contenedor = document.getElementById("lineaTiempo");
-			contenedor.innerHTML = "";
+const controls = ['posX', 'posY', 'posZ', 'rotX', 'rotY', 'rotZ'];
 
-			eventos.forEach((evento, index) => {
-				const div = document.createElement("div");
-				div.className = "evento";
-				div.innerHTML = `
-					<div class="fecha">${evento.fechaFormateada}</div>
-					<div class="titulo">${evento.titulo}</div>
-					<div class="descripcion">${evento.descripcion || ''}</div>
-					<span class="editar-icono" onclick="editarEvento(${index})">✏️</span>
-				`;
-				contenedor.appendChild(div);
-			});
-		}
+// Función para sleep
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-		function editarEvento(index) {
-			const evento = eventos[index];
-			document.getElementById("titulo").value = evento.titulo;
-			document.getElementById("descripcion").value = evento.descripcion || '';
-			document.getElementById("fechaManual").value = evento.fecha.toISOString().split('T')[0];
-			document.getElementById("fechaPicker").value = evento.fecha.toISOString().split('T')[0];
+function updateAllValues() {
+  controls.concat(['brightness']).forEach(id => {
+    const input = document.getElementById(id);
+    const display = document.getElementById(id + 'val');
+    if (display) display.textContent = parseFloat(input.value).toFixed(2);
+  });
+}
 
-			// Eliminar el evento original para que no se repita
-			eventos.splice(index, 1);
-			renderizarLinea();
-		}
+function init() {
+  const container = document.getElementById('canvas-container');
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(70, 1366 / 768, 0.1, 100);
+  camera.position.z = 5;
 
-		function exportarLinea() {
-			const blob = new Blob([JSON.stringify(eventos)], { type: "application/json" });
-			const enlace = document.createElement("a");
-			enlace.href = URL.createObjectURL(blob);
-			enlace.download = "linea_de_tiempo.json";
-			enlace.click();
-		}
+  renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true, antialias: true });
+  renderer.setSize(1366, 768, false);
+  renderer.setPixelRatio(window.devicePixelRatio);
 
-		function importarLinea() {
-			const archivo = document.getElementById("archivoImportar").files[0];
-			if (!archivo) {
-				alert("Seleccioná un archivo para importar.");
-				return;
-			}
+  container.appendChild(renderer.domElement);
 
-			const lector = new FileReader();
-			lector.onload = function(event) {
-				try {
-					const datos = JSON.parse(event.target.result);
-					eventos.length = 0; // Limpiar eventos actuales
-					eventos.push(...datos);
-					eventos.sort((a, b) => a.fecha - b.fecha);
-					renderizarLinea();
-				} catch (e) {
-					alert("El archivo no es válido.");
-				}
-			};
-			lector.readAsText(archivo);
-		}
-	</script>
+  const geometry = new THREE.PlaneGeometry(3, 3);
+  const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+  mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  updateTransform();
+  updateAllValues();
+
+  animate();
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  if (videoTexture && videoElement && videoElement.readyState >= videoElement.HAVE_CURRENT_DATA) {
+    videoTexture.needsUpdate = true;
+  }
+
+  renderer.render(scene, camera);
+
+  if (isPlaying && !exportInProgress) {
+    currentTime += 0.0167; // ~60fps
+    if (currentTime > duration) currentTime = 0;
+    updateTimelineUI(currentTime);
+    interpolate(currentTime);
+
+    if (videoElement && videoElement.paused) {
+      videoElement.currentTime = currentTime;
+    }
+  }
+}
+
+function updateTimelineUI(t) {
+  const timeline = document.getElementById('timeline');
+  timeline.value = t.toFixed(2);
+  document.getElementById('timeline-label').textContent = t.toFixed(2) + 's';
+}
+
+document.getElementById('fileInput').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (file.type && file.type.startsWith('video/')) {
+    if (videoElement) {
+      videoElement.pause();
+      videoElement.remove();
+      videoElement = null;
+      videoTexture = null;
+    }
+
+    videoElement = document.createElement('video');
+    videoElement.src = URL.createObjectURL(file);
+    videoElement.crossOrigin = "anonymous";
+    videoElement.muted = true;
+    videoElement.loop = true;
+    videoElement.preload = "auto";
+    videoElement.pause();
+
+    videoElement.addEventListener('loadedmetadata', () => {
+      duration = videoElement.duration;
+      document.getElementById('timeline').max = duration;
+
+      const vw = videoElement.videoWidth;
+      const vh = videoElement.videoHeight;
+      mesh.geometry.dispose();
+      mesh.geometry = new THREE.PlaneGeometry(vw / 200, vh / 200);
+
+      videoTexture = new THREE.VideoTexture(videoElement);
+      videoTexture.minFilter = THREE.LinearFilter;
+      videoTexture.magFilter = THREE.LinearFilter;
+
+      mesh.material.map = videoTexture;
+      mesh.material.color.setRGB(1, 1, 1);
+      mesh.material.needsUpdate = true;
+
+      currentTime = 0;
+      updateTimelineUI(0);
+    });
+
+  } else if (file.type && file.type.startsWith('image/')) {
+    if (videoElement) {
+      videoElement.pause();
+      videoElement.remove();
+      videoElement = null;
+      videoTexture = null;
+    }
+
+    const url = URL.createObjectURL(file);
+    const loader = new THREE.TextureLoader();
+    loader.load(url, tex => {
+      texture = tex;
+      mesh.material.map = texture;
+      mesh.material.color.setRGB(1, 1, 1);
+      mesh.material.needsUpdate = true;
+
+      const w = texture.image.width;
+      const h = texture.image.height;
+      mesh.geometry.dispose();
+      mesh.geometry = new THREE.PlaneGeometry(w / 200, h / 200);
+
+      duration = 10;
+      document.getElementById('timeline').max = duration;
+      currentTime = 0;
+      updateTimelineUI(0);
+    });
+  } else {
+    alert('Formato no soportado. Subí una imagen o un video.');
+  }
+});
+
+function updateTransform() {
+  mesh.position.set(
+    parseFloat(document.getElementById('posX').value),
+    parseFloat(document.getElementById('posY').value),
+    parseFloat(document.getElementById('posZ').value)
+  );
+  mesh.rotation.set(
+    parseFloat(document.getElementById('rotX').value),
+    parseFloat(document.getElementById('rotY').value),
+    parseFloat(document.getElementById('rotZ').value)
+  );
+  const brillo = parseFloat(document.getElementById('brightness').value);
+  mesh.material.color.setRGB(brillo, brillo, brillo);
+  mesh.material.needsUpdate = true;
+}
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function applyKeyframe(kf) {
+  mesh.position.set(kf.pos.x, kf.pos.y, kf.pos.z);
+  mesh.rotation.set(kf.rot.x, kf.rot.y, kf.rot.z);
+  const brillo = kf.brightness ?? 1;
+  mesh.material.color.setRGB(brillo, brillo, brillo);
+  mesh.material.needsUpdate = true;
+}
+
+function interpolate(t) {
+  if (keyframes.length < 2) return;
+
+  keyframes.sort((a, b) => a.t - b.t);
+
+  if (t <= keyframes[0].t) {
+    applyKeyframe(keyframes[0]);
+    return;
+  }
+  if (t >= keyframes[keyframes.length - 1].t) {
+    applyKeyframe(keyframes[keyframes.length - 1]);
+    return;
+  }
+
+  for (let i = 0; i < keyframes.length - 1; i++) {
+    if (t >= keyframes[i].t && t <= keyframes[i + 1].t) {
+      const a = keyframes[i];
+      const b = keyframes[i + 1];
+      const f = (t - a.t) / (b.t - a.t);
+
+      mesh.position.set(
+        lerp(a.pos.x, b.pos.x, f),
+        lerp(a.pos.y, b.pos.y, f),
+        lerp(a.pos.z, b.pos.z, f)
+      );
+
+      mesh.rotation.set(
+        lerp(a.rot.x, b.rot.x, f),
+        lerp(a.rot.y, b.rot.y, f),
+        lerp(a.rot.z, b.rot.z, f)
+      );
+
+      const brillo = lerp(a.brightness ?? 1, b.brightness ?? 1, f);
+      mesh.material.color.setRGB(brillo, brillo, brillo);
+      mesh.material.needsUpdate = true;
+
+      break;
+    }
+  }
+}
+
+document.getElementById('timeline').addEventListener('input', e => {
+  if (!isPlaying) {
+    currentTime = parseFloat(e.target.value);
+    updateTimelineUI(currentTime);
+    interpolate(currentTime);
+    if (videoElement) {
+      videoElement.currentTime = currentTime;
+      videoElement.pause();
+    }
+  }
+});
+
+document.getElementById('playPauseBtn').addEventListener('click', () => {
+  if (exportInProgress) return;
+  isPlaying = !isPlaying;
+  document.getElementById('playPauseBtn').textContent = isPlaying ? '⏸️' : '▶️';
+
+  if (videoElement) {
+    if (isPlaying) {
+      videoElement.play().catch(() => {
+        console.warn("No se pudo reproducir el video automáticamente.");
+      });
+    } else {
+      videoElement.pause();
+    }
+  }
+});
+
+document.getElementById('addKeyframeBtn').addEventListener('click', () => {
+  if (exportInProgress) return;
+
+  const t = parseFloat(document.getElementById('timeline').value);
+  const newKF = {
+    t,
+    pos: {
+      x: parseFloat(document.getElementById('posX').value),
+      y: parseFloat(document.getElementById('posY').value),
+      z: parseFloat(document.getElementById('posZ').value),
+    },
+    rot: {
+      x: parseFloat(document.getElementById('rotX').value),
+      y: parseFloat(document.getElementById('rotY').value),
+      z: parseFloat(document.getElementById('rotZ').value),
+    },
+    brightness: parseFloat(document.getElementById('brightness').value),
+  };
+
+  keyframes.push(newKF);
+  keyframes.sort((a, b) => a.t - b.t);
+  alert(`Keyframe agregado en t=${t.toFixed(2)}s`);
+});
+
+document.querySelectorAll('.reset-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    const target = e.target.getAttribute('data-target');
+    if (!target) return;
+
+    switch (target) {
+      case 'posX':
+      case 'posY':
+      case 'posZ':
+      case 'rotX':
+      case 'rotY':
+      case 'rotZ':
+        document.getElementById(target).value = 0;
+        break;
+      case 'brightness':
+        document.getElementById(target).value = 1;
+        break;
+    }
+    updateAllValues();
+    updateTransform();
+  });
+});
+
+['posX', 'posY', 'posZ', 'rotX', 'rotY', 'rotZ', 'brightness'].forEach(id => {
+  document.getElementById(id).addEventListener('input', e => {
+    updateAllValues();
+    updateTransform();
+  });
+});
+
+document.getElementById('resizeCanvasBtn').addEventListener('click', () => {
+  const w = parseInt(document.getElementById('canvasWidth').value);
+  const h = parseInt(document.getElementById('canvasHeight').value);
+
+  if (isNaN(w) || isNaN(h) || w < 200 || h < 150) {
+    alert('Tamaño inválido');
+    return;
+  }
+
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+});
+
+// --- Export con progreso ---
+
+function showExportProgress(text) {
+  let div = document.getElementById('exportProgress');
+  if (!div) {
+    div = document.createElement('div');
+    div.id = 'exportProgress';
+    div.style.position = 'fixed';
+    div.style.top = '10px';
+    div.style.right = '10px';
+    div.style.padding = '10px 15px';
+    div.style.background = 'rgba(0,0,0,0.7)';
+    div.style.color = '#0ff';
+    div.style.fontFamily = 'monospace';
+    div.style.zIndex = '150';
+    div.style.borderRadius = '6px';
+    div.style.userSelect = 'none';
+    document.body.appendChild(div);
+  }
+  div.textContent = text;
+}
+
+function hideExportProgress() {
+  const div = document.getElementById('exportProgress');
+  if (div) div.remove();
+}
+
+function waitForVideoFrame() {
+  return new Promise((resolve) => {
+    let resolved = false;
+    if (!videoElement || !videoElement.requestVideoFrameCallback) {
+      // fallback simple
+      let tries = 0;
+      function check() {
+        tries++;
+        if (videoElement.readyState >= videoElement.HAVE_CURRENT_DATA || tries > 10) {
+          resolved = true;
+          resolve();
+        } else {
+          setTimeout(check, 15);
+        }
+      }
+      check();
+    } else {
+      videoElement.requestVideoFrameCallback(() => {
+        if (!resolved) {
+          resolved = true;
+          resolve();
+        }
+      });
+    }
+
+    // Timeout para forzar resolve si tarda más de 500ms
+    setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        resolve();
+      }
+    }, 500);
+  });
+}
+
+
+document.getElementById('exportBtn').addEventListener('click', async () => {
+  if (exportInProgress) {
+    alert('Ya se está exportando, esperá un toque.');
+    return;
+  }
+
+  if (keyframes.length < 2) {
+    alert('Agregá al menos 2 keyframes antes de exportar.');
+    return;
+  }
+
+  exportInProgress = true;
+  isPlaying = false;
+  document.getElementById('playPauseBtn').textContent = '▶️';
+
+  capturer = new CCapture({
+    format: 'webm',
+    framerate: 30,
+    verbose: true,
+    quality: 100,
+    motionBlurFrames: 0,
+  });
+
+  const exportFps = 30;
+  const totalFrames = Math.floor(duration * exportFps);
+
+  showExportProgress('Exportando: 0% (0 / ' + totalFrames + ')');
+
+  if (videoElement) {
+    videoElement.muted = true;
+    try {
+      await videoElement.play();
+      await sleep(200); // darle tiempo a cargar unos frames
+      videoElement.pause();
+    } catch (e) {
+      console.warn('No se pudo reproducir video antes de exportar:', e);
+    }
+  }
+
+
+  capturer.start();
+
+  for (let i = 0; i <= totalFrames; i++) {
+    currentTime = (i / exportFps);
+    updateTimelineUI(currentTime);
+
+    interpolate(currentTime);
+
+    if (videoElement) {
+      videoElement.currentTime = currentTime;
+      await waitForVideoFrame();
+    }
+
+    renderer.render(scene, camera);
+    capturer.capture(renderer.domElement);
+
+    const percent = ((i / totalFrames) * 100).toFixed(1);
+    showExportProgress(`Exportando: ${percent}% (${i} / ${totalFrames})`);
+
+    if (i % 5 === 0) {
+      await sleep(10);
+    }
+  }
+
+  capturer.stop();
+  capturer.save();
+
+  hideExportProgress();
+
+  exportInProgress = false;
+  alert('Exportación finalizada!');
+});
+
+// Init todo
+init();
+
+</script>
 
 </body>
 </html>
-
